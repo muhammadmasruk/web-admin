@@ -4,7 +4,7 @@ import '../siswa/user_mode.dart';
 
 
 class ApiService {
-  final String serverUrl = "http://LAPTOP-85JU2V4F.local:5000";
+  final String serverUrl = "https://unfoxed-kaycee-subcircular.ngrok-free.dev";
 
   Future<List<User>> fetchUsers() async {
     try {
@@ -70,4 +70,5 @@ class ApiService {
       throw Exception('Error: $e');
     }
   }
+
 }
