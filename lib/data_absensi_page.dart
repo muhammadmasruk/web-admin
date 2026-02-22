@@ -110,8 +110,13 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
   Future<void> fetchDataAbsensi() async {
     setState(() => isLoading = true);
     try {
-      // 1. Endpoint disesuaikan dengan Flask
-      final res = await http.get(Uri.parse("$serverUrl/absensi/history"));
+      // Header ngrok-skip-browser-warning ditambahkan agar tidak muncul halaman warning ngrok
+      final res = await http.get(
+        Uri.parse("$serverUrl/absensi/history"),
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+        },
+      );
       final data = json.decode(res.body);
 
       setState(() {
@@ -255,7 +260,6 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
         children: [
           _searchField(),
           const SizedBox(height: 12),
-          // Tambahkan kategori selector di mobile
           _kategoriSelector(),
           const SizedBox(height: 12),
           Row(
@@ -285,7 +289,6 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
           ],
         ),
         const SizedBox(height: 12),
-        // Tambahkan kategori selector di desktop
         _kategoriSelector(),
       ],
     );
@@ -645,7 +648,6 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                // Badge kategori
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 8,
@@ -869,7 +871,6 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
       children: [
         _buildTableCell("${actualIndex + 1}", isCenter: true),
         _buildTableCell(absensi['display_name'] ?? '-'),
-        // Kolom kategori dengan badge
         _buildTableCellWidget(
           Center(
             child: Container(
@@ -1127,7 +1128,6 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Modal Header
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -1161,13 +1161,11 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
                   ],
                 ),
               ),
-              // Modal Body
               Padding(
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Foto (jika ada)
                     if (absensi['foto_url'] != null &&
                         absensi['foto_url'] != '')
                       Center(
@@ -1228,7 +1226,6 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
                   ],
                 ),
               ),
-              // Modal Footer
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -1306,4 +1303,3 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
     );
   }
 }
-
