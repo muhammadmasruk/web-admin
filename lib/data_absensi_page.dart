@@ -11,7 +11,7 @@ class DataAbsensiPage extends StatefulWidget {
 }
 
 class _DataAbsensiPageState extends State<DataAbsensiPage> {
-  final String serverUrl = "http://45.127.35.212:5000";
+  final String serverUrl = "https://unfoxed-kaycee-subcircular.ngrok-free.dev";
   List absensiList = [];
   List filteredAbsensi = [];
   bool isLoading = true;
@@ -1306,3 +1306,4 @@ class _DataAbsensiPageState extends State<DataAbsensiPage> {
     );
   }
 }
+
