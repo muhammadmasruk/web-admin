@@ -2,13 +2,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../siswa/user_mode.dart';
 
-
 class ApiService {
   final String serverUrl = "https://unfoxed-kaycee-subcircular.ngrok-free.dev";
 
+  // Kita buat helper headers agar tidak menulis ulang berkali-kali
+  Map<String, String> get _headers => {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "69420", // Melewati halaman warning ngrok
+      };
+
   Future<List<User>> fetchUsers() async {
     try {
-      final res = await http.get(Uri.parse("$serverUrl/dataset/users"));
+      final res = await http.get(
+        Uri.parse("$serverUrl/dataset/users"),
+        headers: _headers, // Tambahkan headers di sini
+      );
+      
       final data = json.decode(res.body);
       
       final List usersJson = data['data']['users'];
@@ -23,7 +32,7 @@ class ApiService {
     try {
       final res = await http.put(
         Uri.parse("$serverUrl/dataset/users/$authUserId"),
-        headers: {"Content-Type": "application/json"},
+        headers: _headers, // Gunakan helper headers
         body: json.encode(updateData),
       );
 
@@ -41,6 +50,7 @@ class ApiService {
     try {
       final res = await http.delete(
         Uri.parse("$serverUrl/dataset/users/$authUserId"),
+        headers: _headers, // Tambahkan headers agar tidak kena intercept ngrok
       );
 
       final data = json.decode(res.body);
@@ -57,7 +67,7 @@ class ApiService {
     try {
       final res = await http.put(
         Uri.parse("$serverUrl/dataset/users/$authUserId"),
-        headers: {"Content-Type": "application/json"},
+        headers: _headers, // Gunakan helper headers
         body: json.encode({"is_active": newStatus}),
       );
 
@@ -70,5 +80,4 @@ class ApiService {
       throw Exception('Error: $e');
     }
   }
-
 }
